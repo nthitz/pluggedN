@@ -21,7 +21,6 @@
         "default_title": "pluggedN",
         "default_popup": "popup.html"
     },
-    "options_page": "options.html",
     "content_scripts": [
         {
             "matches": [
