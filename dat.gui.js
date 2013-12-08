@@ -1773,6 +1773,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
                 dom.addClass(_this.__ul, GUI.CLASS_CLOSED);
               } else {
                 dom.removeClass(_this.__ul, GUI.CLASS_CLOSED);
+
               }
               // For browsers that aren't going to respect the CSS transition,
               // Lets just check our height against the window height right off
@@ -1781,6 +1782,16 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
               if (_this.__closeButton) {
                 _this.__closeButton.innerHTML = v ? GUI.TEXT_OPEN : GUI.TEXT_CLOSED;
+                if(params.closed) {
+                  setTimeout(function() {
+                    $(".dg .close-button").animate({width: '100px'},400)
+
+                  },400)
+                } else {
+                  setTimeout(function() {
+                     $(".dg .close-button").width(GUI.DEFAULT_WIDTH + 'px')
+                  },400)
+                }
               }
             }
           },
