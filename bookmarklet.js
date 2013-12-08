@@ -18,15 +18,20 @@ var settings = {
 	videoOpacity: 0,
 	autowoot: true,
 	inlineImages: true,
-	theme:0
+	theme:0,
+	spaceMute: true,
+	autoWootMinTime: 10,
+	autoWootMaxTime: 30
+}
+var KEYS = {
+	SPACE: 32
 }
 var gui = new dat.GUI();
 gui.remember(settings);
 gui.add(settings, 'showAudience').onChange(showHideAudience);
 gui.add(settings, 'videoOpacity',0,1).onChange(showHideVideo);
-gui.add(settings, 'autowoot');
+gui.add(settings, 'autowoot').onChange(setWootBehavior);
 gui.add(settings, 'inlineImages').onChange(doInlineImages);
-
 var themeSettingsObject = {}
 for(var i = 0; i < themes.length; i++) {
 	var theme = themes[i];
@@ -34,14 +39,18 @@ for(var i = 0; i < themes.length; i++) {
 }
 gui.add(settings, 'theme', themeSettingsObject).onChange(showTheme)
 
+var advanced = gui.addFolder('advanced')
+advanced.add(settings,'spaceMute')
+advanced.add(settings,'autoWootMinTime',0,120)
+advanced.add(settings,'autoWootMaxTime',0,120)
+
 $('.dg').css("z-index",30).css('right','auto').css('top','65px')
 $('.dg .save-row').hide()
 $('.dg select').css('width', '130px')
 
 var originalTheme = null;
 var inlineImagesInterval = null;
-
-once();
+$(once);
 function once() {
 	if(typeof ran !== "undefined") {
 		return;
@@ -49,7 +58,9 @@ function once() {
 	ran = true;
 	user = API.getUser();
 	API.on(API.DJ_ADVANCE,advance);
-
+	$('body').append('<style type="text/css">#volume .slider { display: block !important; }</style>')
+	console.log('window key handler');
+	window.addEventListener('keydown', documentKeyDown)
 	showHideAudience();
 
 	showHideVideo();
@@ -58,9 +69,17 @@ function once() {
 
 	showTheme();
 
-	if(settings.autowoot) {
-		voteTimeout = setTimeout(vote,10000);
+	setWootBehavior()
+}
+function documentKeyDown(event) {
+	var target = event.target.tagName.toLowerCase()
+	if(target === 'input') {
+		return;
 	}
+	if(event.which === KEYS.SPACE && settings.spaceMute) {
+		$('#volume .button').click()
+	}
+
 }
 function showHideAudience() {
 	if(settings.showAudience) {
@@ -78,10 +97,25 @@ function advance(obj)
 	clearTimeout(voteTimeout);
 	clearTimeout(djCheckTimeout);
 	if (obj == null) return; // no dj
-	var timer = 10000 + 20000 * Math.random();
+
 	if(settings.autowoot) {
+		var minTime = settings.autoWootMinTime * 1000;
+		var maxTime = settings.autoWootMaxTime * 1000;
+		if(maxTime < minTime) {
+			maxTime = minTime;
+		}
+		var diffTime = maxTime - maxTime;
+		var timer = minTime + diffTime * Math.random();
 		voteTimeout = setTimeout(vote,timer);
 	}
+}
+function setWootBehavior() {
+	if(settings.autowoot) {
+		voteTimeout = setTimeout(vote,10000);
+	} else {
+		clearTimeout(voteTimeout)
+	}
+
 }
 function vote() {
 	$('#room #woot').click();
@@ -109,7 +143,6 @@ function checkIfDJing() {
 }function showTheme() {
 	if(originalTheme === null) {
 		originalTheme = $('body').css('background-image');
-		console.log(originalTheme)
 	}
 	var theme = themes[settings.theme];
 

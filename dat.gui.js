@@ -1962,7 +1962,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
   GUI.CLASS_CLOSE_BUTTON = 'close-button';
   GUI.CLASS_DRAG = 'drag';
 
-  GUI.DEFAULT_WIDTH = 245;
+  GUI.DEFAULT_WIDTH = 300;
   GUI.TEXT_CLOSED = 'Close PluggedN';
   GUI.TEXT_OPEN = 'Open PluggedN';
 
