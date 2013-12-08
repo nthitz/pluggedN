@@ -1,5 +1,5 @@
-var devMode = false;
 function bookmarklet () {
+	var devMode = true;
 	function waitForAPI() {
 		if(typeof API === 'undefined') {
 			console.log('wait');
@@ -14,7 +14,7 @@ function bookmarklet () {
 		if(devMode) {
 			server = 'http://localhost:8000/';
 		} else {
-			server = 'https://raw.github.com/nthitz/pluggedN/master/';
+			server = 'http://nthitz.github.io/pluggedN/';
 		}
 		$.getScript(server + 'dat.gui.js',function() {
 			$.getScript(server + 'bookmarklet.js');

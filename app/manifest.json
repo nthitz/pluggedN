@@ -24,9 +24,9 @@
     "options_page": "options.html",
     "content_scripts": [
         {
-            "matches": [
-                "http://*/*",
-                "https://*/*"
+            "matches": [ 
+                "http://*.plug.dj/*",
+                "https://*.plug.dj/*"
             ],
             "css": [
                 "styles/main.css"
