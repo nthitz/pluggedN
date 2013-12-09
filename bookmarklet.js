@@ -13,6 +13,14 @@ themes.push({name: 'TT.fm Red Theme', url: 'u36VR4n'});
 themes.push({name: 'TT.fm After Party Theme', url: 'GZKgCpk'});
 themes.push({name: 'Red Rocks Theme', url: 'lK4GttQ'});
 
+themes.push({name: 'Orbital Lounge', url: 'EFXFnqlh'});
+themes.push({name: 'Bomb Shelter', url: 'XjiQctMh'});
+themes.push({name: 'Christmas Classic', url: '2Q89Rn2h'});
+themes.push({name: 'Chillout Mixer Christmas', url: 'ILrUcVKh'});
+themes.push({name: 'Chillout Mixer Christmas Lite', url: 'nb4ibg4h'});
+themes.push({name: 'plug.dj Christmas Classic', url: 'P4GVhF4h'});
+themes.push({name: 'plug.dj Christmas Ice', url: 'M0CeHahh'});
+
 var settings = {
 	showAudience: false,
 	videoOpacity: 0,
@@ -47,7 +55,7 @@ advanced.add(settings,'autoWootMaxTime',0,120)
 $('.dg').css("z-index",30).css('right','auto').css('top','65px')
 $('.dg .save-row').hide()
 $('.dg select').css('width', '130px')
-
+$('body').css('background-size', '100%')
 var originalTheme = null;
 var inlineImagesInterval = null;
 $(once);
