@@ -178,8 +178,15 @@ function doInlineImages() {
 		        t.remove();
 		        e.append("<a href=" + n + ' class="ignore" target="_blank">' + n + "</a>")
 		    });
+		    function imageLoaded() {
+		    	var objDiv = document.getElementById("chat-messages");
+				objDiv.scrollTop = objDiv.scrollHeight;
+		    }
 		    return $("#chat-messages span.text a").each(function (e, t) {
 		    	if (t.href.match(/.png|.gif|.jpg/) && !$(t).hasClass("ignore")) {
+		    		var img = new Image()
+		    		img.onload = imageLoaded;
+		    		img.src = t.href
 		            return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' /><img style='width: 100%' src='" + t.href + "' />"
 		        }
 		    })
