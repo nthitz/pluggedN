@@ -33,7 +33,7 @@ var settings = {
 	spaceMute: true,
 	autoWootMinTime: 10,
 	autoWootMaxTime: 30,
-	firstInLineMessage:true,
+	frontOfLineMessage:true,
 	autoRespond: false,
 	autoRespondMsg: "I'm away from plug.dj at the moment.",
 	disableOnChat: true,
@@ -64,7 +64,7 @@ var advanced = gui.addFolder('advanced')
 advanced.add(settings,'spaceMute')
 advanced.add(settings,'autoWootMinTime',0,120)
 advanced.add(settings,'autoWootMaxTime',0,120)
-advanced.add(settings,'firstInLineMessage')
+advanced.add(settings,'frontOfLineMessage')
 advanced.add(settings, "chatReplacement")
 $('.dg').css("z-index",30).css('right','auto').css('top','65px')
 $('.dg .save-row').hide()
@@ -180,7 +180,7 @@ function advance(obj)
 		var timer = minTime + diffTime * Math.random();
 		voteTimeout = setTimeout(vote,timer);
 	}
-	if(settings.firstInLineMessage) {
+	if(settings.frontOfLineMessage) {
 		if(API.getWaitListPosition() === 0) {
 			API.chatLog("@" + API.getUser().username + " you are next in line, hope you got a good song ready!", true);
 		}
