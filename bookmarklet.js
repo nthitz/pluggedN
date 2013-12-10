@@ -20,6 +20,8 @@ themes.push({name: 'Chillout Mixer Christmas', url: 'ILrUcVK'});
 themes.push({name: 'Chillout Mixer Christmas Lite', url: 'nb4ibg4'});
 themes.push({name: 'plug.dj Christmas Classic', url: 'P4GVhF4'});
 themes.push({name: 'plug.dj Christmas Ice', url: 'M0CeHah'});
+themes.push({name: 'Digital Dungeon Lite', url: 'zSMRtE6'});
+themes.push({name: 'Fairy Tale Land', url: 'XZNVZmj'});
 
 var settings = {
 	showAudience: false,
