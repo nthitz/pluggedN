@@ -31,7 +31,10 @@ var settings = {
 	theme:0,
 	spaceMute: true,
 	autoWootMinTime: 10,
-	autoWootMaxTime: 30
+	autoWootMaxTime: 30,
+	firstInLineMessage:true,
+	autoRespond: false,
+	autoRespondMessage: "I'm away from plug.dj at the moment."
 }
 var KEYS = {
 	SPACE: 32
@@ -53,6 +56,7 @@ var advanced = gui.addFolder('advanced')
 advanced.add(settings,'spaceMute')
 advanced.add(settings,'autoWootMinTime',0,120)
 advanced.add(settings,'autoWootMaxTime',0,120)
+advanced.add(settings,'firstInLineMessage')
 
 $('.dg').css("z-index",30).css('right','auto').css('top','65px')
 $('.dg .save-row').hide()
@@ -118,6 +122,11 @@ function advance(obj)
 		var diffTime = maxTime - maxTime;
 		var timer = minTime + diffTime * Math.random();
 		voteTimeout = setTimeout(vote,timer);
+	}
+	if(settings.firstInLineMessage) {
+		if(API.getWaitListPosition() === 0) {
+			API.chatLog("@" + API.getUser().username + " you are next in line, hope you got a good song ready!", true);
+		}
 	}
 }
 function setWootBehavior() {
