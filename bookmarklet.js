@@ -69,6 +69,7 @@ function once() {
 	user = API.getUser();
 	API.on(API.DJ_ADVANCE,advance);
 	$('body').append('<style type="text/css">#volume .slider { display: block !important; }</style>')
+	$('#meh').on('click', mehClicked);
 	console.log('window key handler');
 	window.addEventListener('keydown', documentKeyDown)
 	showHideAudience();
@@ -130,6 +131,9 @@ function setWootBehavior() {
 function vote() {
 	$('#room #woot').click();
 }
+function mehClicked() {
+	clearTimeout(voteTimeout)
+}
 function checkIfDJing() {
 	return;
 	
@@ -150,7 +154,8 @@ function checkIfDJing() {
 		return;
 	}
 	$('.button-dj:visible').click();
-}function showTheme() {
+}
+function showTheme() {
 	if(originalTheme === null) {
 		originalTheme = $('body').css('background-image');
 	}
@@ -179,7 +184,7 @@ function doInlineImages() {
 		        e.append("<a href=" + n + ' class="ignore" target="_blank">' + n + "</a>")
 		    });
 		    function imageLoaded() {
-		    	var objDiv = document.getElementById("chat-messages");
+				var objDiv = document.getElementById("chat-messages");
 				objDiv.scrollTop = objDiv.scrollHeight;
 		    }
 		    return $("#chat-messages span.text a").each(function (e, t) {
