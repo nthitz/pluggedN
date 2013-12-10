@@ -36,7 +36,7 @@ var settings = {
 	firstInLineMessage:true,
 	autoRespond: false,
 	autoRespondMessage: "I'm away from plug.dj at the moment.",
-	enableTextReplacement: true
+	chatReplacement: true
 }
 var KEYS = {
 	SPACE: 32
@@ -59,7 +59,7 @@ advanced.add(settings,'spaceMute')
 advanced.add(settings,'autoWootMinTime',0,120)
 advanced.add(settings,'autoWootMaxTime',0,120)
 advanced.add(settings,'firstInLineMessage')
-
+advanced.add(settings, "chatReplacement")
 $('.dg').css("z-index",30).css('right','auto').css('top','65px')
 $('.dg .save-row').hide()
 $('.dg select').css('width', '130px')
@@ -91,12 +91,33 @@ function once() {
 function documentKeyDown(event) {
 	var target = event.target.tagName.toLowerCase()
 	if(target === 'input') {
+		if($(event.target).attr('id') === 'chat-input-field' && settings.chatReplacement) {
+			replaceText(event.target)
+		}
 		return;
 	}
 	if(event.which === KEYS.SPACE && settings.spaceMute) {
 		$('#volume .button').click()
 	}
 
+}
+function replaceText(ele) {
+	var replacements = {
+		'/whatever': '¯\\_(ツ)_/¯',
+		'/tableflip': '(╯°□°）╯︵ ┻━┻',
+		'/tablefix': '┬─┬ノ( º _ ºノ)'
+	}
+	$ele = $(ele);
+	var curText = $ele.val();
+	var newText = "" + curText;
+	for(var replacement in replacements) {
+		var replacementText = replacements[replacement];
+		var reg = new RegExp(replacement,'gi');
+		newText = newText.replace(reg,replacementText)
+	}
+	if(curText !== newText) {
+		$ele.val(newText)
+	}
 }
 function showHideAudience() {
 	if(settings.showAudience) {
