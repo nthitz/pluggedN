@@ -23,6 +23,7 @@ themes.push({name: 'plug.dj Christmas Ice', url: 'M0CeHah'});
 themes.push({name: 'Digital Dungeon Lite', url: 'zSMRtE6'});
 themes.push({name: 'Fairy Tale Land', url: 'XZNVZmj'});
 
+
 var settings = {
 	showAudience: false,
 	videoOpacity: 0,
@@ -34,7 +35,8 @@ var settings = {
 	autoWootMaxTime: 30,
 	firstInLineMessage:true,
 	autoRespond: false,
-	autoRespondMessage: "I'm away from plug.dj at the moment."
+	autoRespondMessage: "I'm away from plug.dj at the moment.",
+	enableTextReplacement: true
 }
 var KEYS = {
 	SPACE: 32
@@ -75,7 +77,7 @@ function once() {
 	$('body').append('<style type="text/css">#volume .slider { display: block !important; }</style>')
 	$('#meh').on('click', mehClicked);
 	console.log('window key handler');
-	window.addEventListener('keydown', documentKeyDown)
+	window.addEventListener('keyup', documentKeyDown)
 	showHideAudience();
 
 	showHideVideo();
