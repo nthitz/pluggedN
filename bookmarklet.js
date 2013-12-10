@@ -4,7 +4,7 @@ var voteTimeout = null;
 var djCheckTimeout = null;
 var user = null;
 var themes = [];
-
+var autoResponseSentTimes = {}
 themes.push({name: 'none', url: null})
 themes.push({name: 'Chillout Mixer Theme', url: 'nptZvUk'});
 themes.push({name: 'Chillout Mixer Theme II', url: 'mL0fuwb'});
@@ -35,7 +35,8 @@ var settings = {
 	autoWootMaxTime: 30,
 	firstInLineMessage:true,
 	autoRespond: false,
-	autoRespondMessage: "I'm away from plug.dj at the moment.",
+	autoRespondMsg: "I'm away from plug.dj at the moment.",
+	disableOnChat: true,
 	chatReplacement: true
 }
 var KEYS = {
@@ -53,6 +54,11 @@ for(var i = 0; i < themes.length; i++) {
 	themeSettingsObject[theme.name] = i;
 }
 gui.add(settings, 'theme', themeSettingsObject).onChange(showTheme)
+var afk = gui.addFolder('autoRespond')
+afk.add(settings, "autoRespond")
+afk.add(settings, "autoRespondMsg")
+afk.add(settings, "disableOnChat") //listen didn't seem to work
+
 
 var advanced = gui.addFolder('advanced')
 advanced.add(settings,'spaceMute')
@@ -74,6 +80,7 @@ function once() {
 	ran = true;
 	user = API.getUser();
 	API.on(API.DJ_ADVANCE,advance);
+	API.on(API.CHAT, chatReceived);
 	$('body').append('<style type="text/css">#volume .slider { display: block !important; }</style>')
 	$('#meh').on('click', mehClicked);
 	console.log('window key handler');
@@ -129,6 +136,33 @@ function showHideAudience() {
 function showHideVideo() {
 	$('#playback').css('opacity',settings.videoOpacity)
 
+}
+
+function chatReceived(data) {
+	var msg = data.message;
+	var username = API.getUser().username;
+	if(username === data.from) {
+		//from self
+		if(settings.disableOnChat && settings.autoRespond) {
+			settings.autoRespond = false;
+			updateGUI()
+
+		}
+		return;
+	}
+	if(msg.indexOf(username) !== -1) {
+		//mentioned
+		if(settings.autoRespond) {
+			var timeLimitPerUser = 1000 * 60 * 3;
+			var now = new Date().getTime();
+			var validTime = now - timeLimitPerUser;
+			if(typeof autoResponseSentTimes[data.from] === 'undefined' || autoResponseSentTimes[data.from] < validTime) {
+				var response = '@' + data.from + ' ' + settings.autoRespondMsg;
+				API.sendChat(response);
+				autoResponseSentTimes[data.from] = now;
+			}
+		}
+	}
 }
 function advance(obj)
 {
@@ -230,5 +264,25 @@ function doInlineImages() {
 		},1e3)
 	} else {
 		clearInterval(inlineImagesInterval)
+	}
+}
+
+function updateGUI() {
+	updateControllers(gui)
+	updateFolders(gui);
+}
+function updateFolders(f) {
+	if(typeof f === 'undefined') {
+		return;
+	}
+	for(var folderName in f.__folders) {
+		var folder = f.__folders[folderName];
+		updateControllers(folder);
+		updateFolders(folder);
+	}
+}
+function updateControllers(o) {
+	for (var i in o.__controllers) {
+		o.__controllers[i].updateDisplay();
 	}
 }
