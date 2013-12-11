@@ -183,6 +183,9 @@ function advance(obj)
 	if(settings.frontOfLineMessage) {
 		if(API.getWaitListPosition() === 0) {
 			API.chatLog("@" + API.getUser().username + " you are next in line, hope you got a good song ready!", true);
+			if($('#chat-sound-button .icon').hasClass('icon-chat-sound-on')) {
+				document.getElementById("chat-sound").playMentionSound()
+			}
 		}
 	}
 }

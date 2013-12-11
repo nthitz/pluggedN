@@ -1,5 +1,5 @@
 function bookmarklet () {
-	var devMode = false;
+	var devMode = true;
 	function waitForAPI() {
 		if(typeof API === 'undefined') {
 			console.log('wait');
