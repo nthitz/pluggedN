@@ -128,9 +128,9 @@ function documentKeyDown(event) {
 }
 function replaceText(ele) {
 	var replacements = {
-		'/whatever': '¯\\_(ツ)_/¯',
-		'/tableflip': '(╯°□°）╯︵ ┻━┻',
-		'/tablefix': '┬─┬ノ( º _ ºノ)'
+		'/whatever': '¯\\_(ツ)_/¯'//, :(
+		//'/tableflip': '(╯°□°）╯︵ ┻━┻',
+		//'/tablefix': '┬─┬ノ( º _ ºノ)'
 	}
 	$ele = $(ele);
 	var curText = $ele.val();
