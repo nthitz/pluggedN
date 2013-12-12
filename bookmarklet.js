@@ -6,6 +6,7 @@ var user = null;
 var themes = [];
 var autoResponseSentTimes = {}
 var largeVideoControlsFadeTimeout = null;
+var currentSong = null;
 themes.push({name: 'none', url: null})
 themes.push({name: 'Chillout Mixer Theme', url: 'nptZvUk'});
 themes.push({name: 'Chillout Mixer Theme II', url: 'mL0fuwb'});
@@ -36,6 +37,8 @@ var settings = {
 	autoWootMinTime: 10,
 	autoWootMaxTime: 30,
 	frontOfLineMessage:true,
+	newSongMessage:true,
+	lastSongStats:true,
 	autoRespond: false,
 	autoRespondMsg: "I'm away from plug.dj at the moment.",
 	disableOnChat: true,
@@ -63,6 +66,11 @@ afk.add(settings, "autoRespond")
 afk.add(settings, "autoRespondMsg")
 afk.add(settings, "disableOnChat") //listen didn't seem to work
 
+var notifications = gui.addFolder('notifications')
+notifications.add(settings,'frontOfLineMessage')
+notifications.add(settings,'lastSongStats')
+notifications.add(settings,'newSongMessage')
+
 
 var advanced = gui.addFolder('advanced')
 var showHide = advanced.addFolder('hide stuff')
@@ -71,7 +79,6 @@ showHide.add(settings, 'djOpacity',0,1).onChange(showHideDJ)
 advanced.add(settings,'spaceMute')
 advanced.add(settings,'autoWootMinTime',0,120)
 advanced.add(settings,'autoWootMaxTime',0,120)
-advanced.add(settings,'frontOfLineMessage')
 advanced.add(settings, "chatReplacement")
 $('.dg').css("z-index",30).css('right','auto').css('top','65px')
 $('.dg .save-row').hide()
@@ -87,6 +94,7 @@ function once() {
 	}
 	ran = true;
 	user = API.getUser();
+	currentSong = API.getMedia();
 	API.on(API.DJ_ADVANCE,advance);
 	API.on(API.CHAT, chatReceived);
 
@@ -112,6 +120,7 @@ function once() {
 	setWootBehavior();
 
 	updateVideoSize()
+	newSongMessage()
 }
 function documentKeyDown(event) {
 	var target = event.target.tagName.toLowerCase()
@@ -187,32 +196,78 @@ function chatReceived(data) {
 }
 function advance(obj)
 {
+
 	clearTimeout(voteTimeout);
 	clearTimeout(djCheckTimeout);
-	if (obj == null) return; // no dj
+	setTimeout(function() { //defer... plz no
 
-	if(settings.autowoot) {
-		var minTime = settings.autoWootMinTime * 1000;
-		var maxTime = settings.autoWootMaxTime * 1000;
-		if(maxTime < minTime) {
-			maxTime = minTime;
+		currentSong = API.getMedia();
+		if (obj == null) return; // no dj
+
+		if(settings.autowoot) {
+			var minTime = settings.autoWootMinTime * 1000;
+			var maxTime = settings.autoWootMaxTime * 1000;
+			if(maxTime < minTime) {
+				maxTime = minTime;
+			}
+			var diffTime = maxTime - maxTime;
+			var timer = minTime + diffTime * Math.random();
+			voteTimeout = setTimeout(vote,timer);
 		}
-		var diffTime = maxTime - maxTime;
-		var timer = minTime + diffTime * Math.random();
-		voteTimeout = setTimeout(vote,timer);
-	}
-	if(settings.videoSize === 'large') {
-		setTimeout(insertLargeCSS, 200)
-	}
-	if(settings.frontOfLineMessage) {
-		if(API.getWaitListPosition() === 0) {
-			API.chatLog("@" + API.getUser().username + " you are next in line, hope you got a good song ready!", true);
-			if($('#chat-sound-button .icon').hasClass('icon-chat-sound-on')) {
-				document.getElementById("chat-sound").playMentionSound()
+		if(settings.videoSize === 'large') {
+			setTimeout(insertLargeCSS, 200)
+		}
+		
+		newSongMessage();
+	},100)
+
+}
+
+function newSongMessage() {
+	setTimeout(function() { //defer
+		var message = ""
+		var lastSong = API.getHistory()[1];
+		if(settings.lastSongStats && typeof lastSong !== 'undefined') {
+			message += 'Last play: ';
+			if(!settings.newSongMessage) {
+				// if we haven't displayed song title/artist
+				message += '@' + lastSong.user.username + " played " + lastSong.media.title + " by " + lastSong.media.author + " "
+			}
+			message += lastSong.room.positive + ":thumbsup:"
+			if(lastSong.room.negative !== 0) {
+				message += lastSong.room.negative + ":thumbsdown:"
+			}
+			if(lastSong.room.curates !== 0) {
+				message += lastSong.room.curates + ":star:"
+			}
+
+
+		//	message += 'Last play: ' + 
+		}
+		if(settings.lastSongStats && (settings.newSongMessage || settings.frontOfLineMessage)) {
+			message += ' '
+		}
+		if(settings.newSongMessage) {
+			var user = API.getDJ();
+			message += 'Now Up @' + user.username + " playing " + currentSong.title + " by " + currentSong.author
+		}
+		if(settings.newSongMessage && settings.frontOfLineMessage) {
+			message += ' '	
+		}
+		if(settings.frontOfLineMessage) {
+			if(API.getWaitListPosition() === 0) {
+				message += "@" + API.getUser().username + " you are next in line, hope you got a good song ready!"
+				if($('#chat-sound-button .icon').hasClass('icon-chat-sound-on')) {
+					document.getElementById("chat-sound").playMentionSound()
+				}
 			}
 		}
-	}
+		if(message !== '') {
+			API.chatLog(message,false);
+		}
+	},200);
 }
+
 function setWootBehavior() {
 	if(settings.autowoot) {
 		voteTimeout = setTimeout(vote,10000);
