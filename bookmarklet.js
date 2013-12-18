@@ -67,6 +67,7 @@ var KEYS = {
 }
 var gui = new dat.GUI();
 gui.remember(settings);	
+gui.remember(settings.rankColors)
 gui.add(settings, 'videoOpacity',0,1).onChange(showHideVideo);
 gui.add(settings, 'autowoot').onChange(setWootBehavior);
 gui.add(settings, 'inlineImages').onChange(doInlineImages);
