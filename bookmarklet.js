@@ -52,7 +52,15 @@ var settings = {
 	autoRespondMsg: "I'm away from plug.dj at the moment.",
 	disableOnChat: true,
 	chatReplacement: true,
-	videoSize: 'normal'
+	videoSize: 'normal',
+	customColors: false,
+	rankColors: {
+		host: "#ac76ff",
+		manager: "#ac76ff",
+		bouncer: "#ac76ff",
+		dj: "#ac76ff",
+		regular: "#b0b0b0"
+	}
 }
 var KEYS = {
 	SPACE: 32
@@ -75,6 +83,13 @@ afk.add(settings, "autoRespond")
 afk.add(settings, "autoRespondMsg")
 afk.add(settings, "disableOnChat") //listen didn't seem to work
 
+var customColors = gui.addFolder('custom colors')
+customColors.add(settings, "customColors")
+customColors.addColor(settings.rankColors, "host")
+customColors.addColor(settings.rankColors, "manager")
+customColors.addColor(settings.rankColors, "bouncer")
+customColors.addColor(settings.rankColors, "dj")
+customColors.addColor(settings.rankColors, "regular")
 
 var advanced = gui.addFolder('advanced')
 var showHide = advanced.addFolder('hide stuff')
@@ -174,16 +189,16 @@ function showHideDJ() {
 function chatReceived(data) {
 	var msg = data.message;
 	var username = API.getUser().username;
+	var fromSelf = false;
 	if(username === data.from) {
-		//from self
+		fromSelf = true;
 		if(settings.disableOnChat && settings.autoRespond) {
 			settings.autoRespond = false;
 			updateGUI()
 
 		}
-		return;
 	}
-	if(msg.indexOf(username) !== -1) {
+	if(msg.indexOf(username) !== -1 && ! fromSelf) {
 		//mentioned
 		if(settings.autoRespond) {
 			var timeLimitPerUser = 1000 * 60 * 3;
@@ -195,6 +210,52 @@ function chatReceived(data) {
 				autoResponseSentTimes[data.from] = now;
 			}
 		}
+	}
+	console.log('rcved ' + settings.customColors)
+	if(settings.customColors) {
+		defer(function() {
+			applyCustomColors(data)
+		})
+	}
+}
+function applyCustomColors(message) {
+	console.log(message)
+	var sel = ".cid-" + message.chatID +  ' .from'
+	console.log(sel);
+	/*
+		host: "#ac76ff",
+		manager: "#ac76ff",
+		bouncer: "#ac76ff",
+		dj: "#ac76ff",
+		regular: "#eee"
+		*/
+	var mods = API.getStaff()
+	var isMod = false;
+	var modIndex = -1;
+	for(var i = 0; i < mods.length; i ++) {
+		if(mods[i].id === message.fromID) {
+			isMod = true;
+			modIndex = i;
+			break;
+		}
+	}
+	if(isMod) {
+		var mod = API.getStaff()[modIndex]
+		var permission = mod.permission
+		var permissionMap = {
+			1: settings.rankColors.dj,
+			2: settings.rankColors.bouncer,
+			3: settings.rankColors.manager,
+			4: settings.rankColors.host,
+			5: settings.rankColors.host
+		}
+		console.log(permission);
+		console.log(permissionMap[permission])
+		$(sel).css('color', permissionMap[permission])
+
+
+	} else {
+		$(sel).css('color', settings.rankColors.regular)
 	}
 }
 function advance(obj)
@@ -382,4 +443,7 @@ function updateControllers(o) {
 	for (var i in o.__controllers) {
 		o.__controllers[i].updateDisplay();
 	}
+}
+function defer(callback) {
+	setTimeout(callback,0)
 }
