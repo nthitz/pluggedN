@@ -45,8 +45,8 @@ var settings = {
 	inlineImages: true,
 	theme:0,
 	spaceMute: true,
-	autoWootMinTime: 10,
-	autoWootMaxTime: 30,
+	autoWootMinTime: 60,
+	autoWootMaxTime: 120,
 	frontOfLineMessage:true,
 	autoRespond: false,
 	autoRespondMsg: "I'm away from plug.dj at the moment.",
@@ -85,7 +85,7 @@ afk.add(settings, "autoRespondMsg")
 afk.add(settings, "disableOnChat") //listen didn't seem to work
 
 var customColors = gui.addFolder('custom colors')
-customColors.add(settings, "customColors")
+customColors.add(settings, "customColors").onChange(applyCustomColorsClass)
 customColors.addColor(settings.rankColors, "host")
 customColors.addColor(settings.rankColors, "manager")
 customColors.addColor(settings.rankColors, "bouncer")
@@ -124,7 +124,7 @@ function once() {
 		'#room.largePlayer #playback { width: 100% !important; height: 101% !important; left:0 !important; pointer-events:none !important; }' + 
 		'#room.largePlayer #playback-container { width: 100% !important; height: 100% !important; pointer-events:none !important; }' + 
 		'#room.largePlayer #yt-frame { pointer-events: none !important; }' + 
-
+		'body.customColors #chat .message .from { color: rgba(0,0,0,0); } '
 		+ '</style>')
 	$('#meh').on('click', mehClicked);
 	console.log('window key handler');
@@ -139,7 +139,8 @@ function once() {
 
 	setWootBehavior();
 
-	updateVideoSize()
+	updateVideoSize();
+	applyCustomColorsClass()
 }
 function documentKeyDown(event) {
 	var target = event.target.tagName.toLowerCase()
@@ -212,24 +213,21 @@ function chatReceived(data) {
 			}
 		}
 	}
-	console.log('rcved ' + settings.customColors)
 	if(settings.customColors) {
 		defer(function() {
 			applyCustomColors(data)
 		})
 	}
 }
+function applyCustomColorsClass() {
+	if(settings.customColors) {
+		$('body').addClass('customColors')
+	} else {
+		$('body').removeClass('customColors')
+	}
+}
 function applyCustomColors(message) {
-	console.log(message)
 	var sel = ".cid-" + message.chatID +  ' .from'
-	console.log(sel);
-	/*
-		host: "#ac76ff",
-		manager: "#ac76ff",
-		bouncer: "#ac76ff",
-		dj: "#ac76ff",
-		regular: "#eee"
-		*/
 	var mods = API.getStaff()
 	var isMod = false;
 	var modIndex = -1;
@@ -250,8 +248,6 @@ function applyCustomColors(message) {
 			4: settings.rankColors.host,
 			5: settings.rankColors.host
 		}
-		console.log(permission);
-		console.log(permissionMap[permission])
 		$(sel).css('color', permissionMap[permission])
 
 
