@@ -297,7 +297,7 @@ function doInlineImages() {
 				objDiv.scrollTop = objDiv.scrollHeight;
 		    }
 		    return $("#chat-messages span.text a").each(function (e, t) {
-		    	if (t.href.match(/.png|.gif|.jpg/) && !$(t).hasClass("ignore")) {
+		    	if (t.href.match(/(\.png|\.gif|\.jpg|\.jpeg)$/) && !$(t).hasClass("ignore")) {
 		    		var img = new Image()
 		    		img.onload = imageLoaded;
 		    		img.src = t.href
