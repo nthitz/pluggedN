@@ -58,15 +58,17 @@ var settings = {
 		host: "#ac76ff",
 		manager: "#ac76ff",
 		bouncer: "#ac76ff",
-		dj: "#ac76ff",
-		regular: "#b0b0b0"
+		resident_dj: "#ac76ff",
+    friend: "#b0b0b0",
+		regular: "#b0b0b0",
+    self: "#b0b0b0",
 	}
 }
 var KEYS = {
 	SPACE: 32
 }
 var gui = new dat.GUI();
-gui.remember(settings);	
+gui.remember(settings);
 gui.remember(settings.rankColors)
 gui.add(settings, 'videoOpacity',0,1).onChange(showHideVideo);
 gui.add(settings, 'autowoot').onChange(setWootBehavior);
@@ -89,8 +91,10 @@ customColors.add(settings, "customColors").onChange(applyCustomColorsClass)
 customColors.addColor(settings.rankColors, "host")
 customColors.addColor(settings.rankColors, "manager")
 customColors.addColor(settings.rankColors, "bouncer")
-customColors.addColor(settings.rankColors, "dj")
+customColors.addColor(settings.rankColors, "resident_dj")
 customColors.addColor(settings.rankColors, "regular")
+customColors.addColor(settings.rankColors, "friend")    // Don't see the ability to get friends from the API
+customColors.addColor(settings.rankColors, "self");
 
 var advanced = gui.addFolder('advanced')
 var showHide = advanced.addFolder('hide stuff')
@@ -120,10 +124,10 @@ function once() {
 
 	$('body').append('<style type="text/css">#volume .slider { display: block !important; }' +
 		'#room.largePlayer #dj-button { z-index:10; -webkit-transition:opacity 0.8s; transition: opacity 0.8s; }' +
-		'#room.largePlayer #vote { z-index:10; -webkit-transition:opacity 0.8s; transition: opacity 0.8s; }' + 
-		'#room.largePlayer #playback { width: 100% !important; height: 101% !important; left:0 !important; pointer-events:none !important; }' + 
-		'#room.largePlayer #playback-container { width: 100% !important; height: 100% !important; pointer-events:none !important; }' + 
-		'#room.largePlayer #yt-frame { pointer-events: none !important; }' + 
+		'#room.largePlayer #vote { z-index:10; -webkit-transition:opacity 0.8s; transition: opacity 0.8s; }' +
+		'#room.largePlayer #playback { width: 100% !important; height: 101% !important; left:0 !important; pointer-events:none !important; }' +
+		'#room.largePlayer #playback-container { width: 100% !important; height: 100% !important; pointer-events:none !important; }' +
+		'#room.largePlayer #yt-frame { pointer-events: none !important; }' +
 		'body.customColors #chat .message .from { color: rgba(0,0,0,0); } '
 		+ '</style>')
 	$('#meh').on('click', mehClicked);
@@ -175,7 +179,7 @@ function replaceText(ele) {
 }
 function showHideAudience() {
 	if(settings.audienceOpacity === 0) {
-		$('#audience').hide();	
+		$('#audience').hide();
 	} else {
 		$('#audience').show().css('opacity',settings.audienceOpacity)
 	}
@@ -237,12 +241,19 @@ function applyCustomColors(message) {
 			modIndex = i;
 			break;
 		}
-	}
-	if(isMod) {
+  }
+  var isSelf = (API.getUser().username === message.from)
+  if(isSelf) {
+    $(sel).css('color', settings.rankColors.self)
+
+  } else if(API.getUser(message.fromID).relationship === 3) {       //If they're your friend.
+    $(sel).css('color', settings.rankColors.friend)
+
+  } else if(isMod) {
 		var mod = API.getStaff()[modIndex]
 		var permission = mod.permission
 		var permissionMap = {
-			1: settings.rankColors.dj,
+			1: settings.rankColors.resident_dj,
 			2: settings.rankColors.bouncer,
 			3: settings.rankColors.manager,
 			4: settings.rankColors.host,
@@ -299,7 +310,7 @@ function mehClicked() {
 }
 function checkIfDJing() {
 	return;
-	
+
 	var curDJs = API.getDJs();
 	var djing = false;
 	for(var i = 0; i < curDJs.length; i++) {
@@ -399,7 +410,7 @@ function applyNormalVideo() {
 	$('#room').off('mousemove.largeVideoFade', fadeInLargeVideoControls)
 	clearTimeout(largeVideoControlsFadeTimeout);
 	$('#dj-button, #vote').css('opacity',1)
-	
+
 	$(window).resize();
 }
 function applyLargeVideo() {
@@ -416,7 +427,7 @@ function applyLargeVideo() {
 	$('#room').on('mousemove.largeVideoFade', fadeInLargeVideoControls)
 
 }
- 
+
 function fadeInLargeVideoControls() {
 	clearTimeout(largeVideoControlsFadeTimeout)
 	$('#dj-button, #vote').css('opacity',1)
@@ -431,10 +442,10 @@ function insertLargeCSS() {
 	if(src.indexOf('http') === 0) {
 		return;
 	}
-	var cssLink = document.createElement("style") 
+	var cssLink = document.createElement("style")
 	cssLink.textContent = "canvas { width: 100% !important; height: 100% !important; left: 0 !important; top: 0 !important; margin:0 !important; }"
-	cssLink.type = "text/css"; 
-	frames['yt-frame'].document.body.appendChild(cssLink);	
+	cssLink.type = "text/css";
+	frames['yt-frame'].document.body.appendChild(cssLink);
 }
 function updateControllers(o) {
 	for (var i in o.__controllers) {
@@ -444,3 +455,6 @@ function updateControllers(o) {
 function defer(callback) {
 	setTimeout(callback,0)
 }
+
+
+
