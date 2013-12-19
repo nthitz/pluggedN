@@ -1977,6 +1977,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
   GUI.TEXT_CLOSED = 'Close PluggedN';
   GUI.TEXT_OPEN = 'Open PluggedN';
 
+  /*
+  //how about no.
   dom.bind(window, 'keydown', function(e) {
 
     if (document.activeElement.type !== 'text' &&
@@ -1985,7 +1987,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     }
 
   }, false);
-
+  */
   common.extend(
 
       GUI.prototype,
