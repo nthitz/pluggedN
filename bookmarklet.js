@@ -59,9 +59,9 @@ var settings = {
 		manager: "#ac76ff",
 		bouncer: "#ac76ff",
 		resident_dj: "#ac76ff",
-    friend: "#b0b0b0",
+    	friend: "#b0b0b0",
 		regular: "#b0b0b0",
-    self: "#b0b0b0",
+    	self: "#b0b0b0",
 	}
 }
 var KEYS = {
