@@ -61,7 +61,7 @@ var settings = {
 		resident_dj: "#ac76ff",
     	friend: "#b0b0b0",
 		regular: "#b0b0b0",
-    	self: "#b0b0b0",
+    	self: "#ffdd6f",
 	}
 }
 var KEYS = {
