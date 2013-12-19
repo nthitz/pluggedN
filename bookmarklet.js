@@ -354,23 +354,31 @@ function doInlineImages() {
 		inlineImagesInterval = setInterval(function() {
 		    $(".closeImage").off("click");
 		    $(".closeImage").on("click", function () {
-		        var e = $(this).parent();
-		        var t = $(this).next("img");
-		        var n = t.attr("src");
+		        var parent = $(this).parent();
+		        var embed = parent.find(".plugEmbed");
+		        var src = $(this).data("src");
 		        $(this).remove();
-		        t.remove();
-		        e.append("<a href=" + n + ' class="ignore" target="_blank">' + n + "</a>")
+		        embed.remove();
+		        parent.append("<a href=" + src + ' class="ignore" target="_blank">' + src + "</a>")
 		    });
 		    function imageLoaded() {
 				var objDiv = document.getElementById("chat-messages");
 				objDiv.scrollTop = objDiv.scrollHeight;
 		    }
 		    return $("#chat-messages span.text a").each(function (e, t) {
-		    	if (t.href.match(/(\.png|\.gif|\.jpg|\.jpeg)$/i) && !$(t).hasClass("ignore")) {
+		    	if($(t).hasClass('ignore')) {
+		    		return;
+		    	}
+		    	var mediacrushMatch;
+		    	if (t.href.match(/(\.png|\.gif|\.jpg|\.jpeg)$/i)) {
 		    		var img = new Image()
 		    		img.onload = imageLoaded;
 		    		img.src = t.href
-		            return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' /><img style='width: 100%' src='" + t.href + "' />"
+		            return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "'' /><img class='plugEmbed' style='width: 100%' src='" + t.href + "' />"
+		        } else if (mediacrushMatch = t.href.match(/\/\/mediacru.sh\/([a-zA-Z0-9]+)/) ) {
+		        	var embed = "https://mediacru.sh/" + mediacrushMatch[1] + "/frame"
+		        	return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "' /><iframe class='plugEmbed' src='" + embed + "' width='100%' allowFullScreen frameborder='0'></iframe>"
+		        	
 		        }
 		    })
 		},1e3)
