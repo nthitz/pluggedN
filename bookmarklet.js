@@ -246,7 +246,7 @@ function applyCustomColors(message) {
   if(isSelf) {
     $(sel).css('color', settings.rankColors.self)
 
-  } else if(API.getUser(message.fromID).relationship === 3) {       //If they're your friend.
+  } else if(API.getUser(message.fromID).relationship === 3 || API.getUser(message.fromID).relationship === 2) {       //If they're your friend.
     $(sel).css('color', settings.rankColors.friend)
 
   } else if(isMod) {
