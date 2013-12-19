@@ -121,7 +121,7 @@ function once() {
 	user = API.getUser();
 	API.on(API.DJ_ADVANCE,advance);
 	API.on(API.CHAT, chatReceived);
-
+	$('#playlist-button').on('click', openPlaylist)
 	$('body').append('<style type="text/css">#volume .slider { display: block !important; }' +
 		'#room.largePlayer #dj-button { z-index:10; -webkit-transition:opacity 0.8s; transition: opacity 0.8s; }' +
 		'#room.largePlayer #vote { z-index:10; -webkit-transition:opacity 0.8s; transition: opacity 0.8s; }' +
@@ -436,7 +436,15 @@ function fadeInLargeVideoControls() {
 	},2000)
 
 }
-
+function openPlaylist() {
+	/*
+	the button gets switched before we recieve the event
+	so we look for the close button to determine if we are open(ing)
+	*/
+	if($(this).find('.icon-playlist-close').length > 0) {
+		gui.close()
+	}
+}
 function insertLargeCSS() {
 	var src = $('#yt-frame').attr('src')
 	if(src.indexOf('http') === 0) {
