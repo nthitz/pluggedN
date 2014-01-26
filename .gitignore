@@ -8,3 +8,5 @@ test/bower_components
 package
 keys
 .DS_Store
+dist.zip
+

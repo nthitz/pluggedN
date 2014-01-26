@@ -3,30 +3,10 @@
 var voteTimeout = null;
 var djCheckTimeout = null;
 var user = null;
-var themes = [];
+
 var autoResponseSentTimes = {}
 var largeVideoControlsFadeTimeout = null;
 
-themes.push({name: 'Chillout Mixer Theme', url: 'nptZvUk'});
-themes.push({name: 'Chillout Mixer Theme II', url: 'mL0fuwb'});
-themes.push({name: 'Digital Dungeon Theme', url: 'WTylHRy'});
-themes.push({name: 'Digital Dungeon Lite', url: 'zSMRtE6'});
-themes.push({name: 'TT.fm Red Theme', url: 'u36VR4n'});
-themes.push({name: 'TT.fm After Party Theme', url: 'GZKgCpk'});
-themes.push({name: 'Red Rocks Theme', url: 'lK4GttQ'});
-themes.push({name: 'Orbital Lounge', url: 'EFXFnql'});
-themes.push({name: 'Bomb Shelter', url: 'XjiQctM'});
-themes.push({name: 'Christmas Classic', url: '2Q89Rn2'});
-themes.push({name: 'Chillout Mixer Christmas', url: 'ILrUcVK'});
-themes.push({name: 'Chillout Mixer Christmas Lite', url: 'nb4ibg4'});
-themes.push({name: 'plug.dj Christmas Classic', url: 'P4GVhF4'});
-themes.push({name: 'plug.dj Christmas Ice', url: 'M0CeHah'});
-themes.push({name: 'Fairy Tale Land', url: 'XZNVZmj'});
-themes.push({name: 'Mordor', url: '9DVTnnW'});
-themes.push({name: 'Architect Chamber', url: '8hfUntO'});
-themes.push({name: 'End of Line Club', url: '6N7svVu'});
-themes.push({name: 'Off The Grid v1', url: 'JZjGLPH'});
-themes.push({name: 'Off The Grid v2', url: 'M4Z45oA'});
 themes.sort(function(a,b) {
 	if(a.name > b.name) {
 		return 1

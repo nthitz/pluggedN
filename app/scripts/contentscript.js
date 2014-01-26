@@ -1,5 +1,5 @@
 function bookmarklet () {
-	var devMode = true;
+	var devMode = false;
 	function waitForAPI() {
 		if(typeof API === 'undefined') {
 			console.log('wait');
@@ -8,6 +8,7 @@ function bookmarklet () {
 			init();
 		}
 	}
+    var scripts = [];
 	function init() {
 		console.log('init');
 		var server = null;
@@ -16,10 +17,28 @@ function bookmarklet () {
 		} else {
 			server = 'http://nthitz.github.io/pluggedN/';
 		}
+        scripts = [
+            server + 'dat.gui.js',
+            server + 'theme.js',
+            'http://maxkunowski.com/plug/index.js',
+            server + 'bookmarklet.js'
+        ]
+        loadScripts()
+        /*
 		$.getScript(server + 'dat.gui.js',function() {
-			$.getScript(server + 'bookmarklet.js');
+			$.getScript(server + 'theme.js', function() {
+                $.getScript(server + 'bookmarklet.js');
+            });
 		})
+        */  
 	}
+    function loadScripts() {
+        if(scripts.length > 0) {
+            var script = scripts.shift()
+            $.getScript(script, loadScripts)
+        }
+    }
+    
 	waitForAPI()
 }
 try {
