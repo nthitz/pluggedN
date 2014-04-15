@@ -21,6 +21,7 @@ var settings = {
 	audienceOpacity: 1.0,
 	djOpacity: 1.0,
 	videoOpacity: 0.7,
+       hideChat: false,
 	autowoot: false,
 	inlineImages: true,
 	theme:0,
@@ -80,6 +81,7 @@ var advanced = gui.addFolder('advanced')
 var showHide = advanced.addFolder('hide stuff')
 showHide.add(settings, 'audienceOpacity',0,1).onChange(showHideAudience);
 showHide.add(settings, 'djOpacity',0,1).onChange(showHideDJ)
+showHide.add(settings, 'hideChat').onChange(showHideChat);
 advanced.add(settings,'spaceMute')
 advanced.add(settings,'autoWootMinTime',0,120)
 advanced.add(settings,'autoWootMaxTime',0,120)
@@ -170,6 +172,9 @@ function showHideVideo() {
 }
 function showHideDJ() {
 	$('#dj-canvas').css('opacity',settings.djOpacity)
+}
+function showHideChat() {
+       $('#chat').toggle();
 }
 
 function chatReceived(data) {
