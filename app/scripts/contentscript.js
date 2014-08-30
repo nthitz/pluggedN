@@ -1,5 +1,5 @@
 function bookmarklet () {
-	var devMode = false;
+	var devMode = true;
 	function waitForAPI() {
 		if(typeof API === 'undefined') {
 			console.log('wait');
@@ -15,12 +15,11 @@ function bookmarklet () {
 		if(devMode) {
 			server = 'http://localhost:8000/';
 		} else {
-			server = 'http://nthitz.github.io/pluggedN/';
+			server = 'https://nthitz.github.io/pluggedN/';
 		}
         scripts = [
             server + 'dat.gui.js',
             server + 'theme.js',
-            'http://maxkunowski.com/plug/index.js',
             server + 'bookmarklet.js'
         ]
         loadScripts()
@@ -40,6 +39,7 @@ function bookmarklet () {
     }
     
 	waitForAPI()
+    init()
 }
 try {
 	setTimeout(function() {
