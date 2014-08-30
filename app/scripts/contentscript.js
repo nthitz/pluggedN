@@ -39,7 +39,6 @@ function bookmarklet () {
     }
     
 	waitForAPI()
-    init()
 }
 try {
 	setTimeout(function() {
