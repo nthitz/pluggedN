@@ -74,7 +74,7 @@ customColors.addColor(settings.rankColors, "manager")
 customColors.addColor(settings.rankColors, "bouncer")
 customColors.addColor(settings.rankColors, "resident_dj")
 customColors.addColor(settings.rankColors, "regular")
-customColors.addColor(settings.rankColors, "friend")    // Don't see the ability to get friends from the API
+//customColors.addColor(settings.rankColors, "friend")    // Don't see the ability to get friends from the API
 customColors.addColor(settings.rankColors, "self");
 
 var advanced = gui.addFolder('advanced')
@@ -121,12 +121,11 @@ function once() {
        showHideChat();
 
 	doInlineImages();
-
-	showTheme();
-
+	console.log(themes)
+	
 	setWootBehavior();
-
-	updateVideoSize();
+	setTimeout(updateVideoSize, 1000)
+	setTimeout(showTheme,3000);
 	applyCustomColorsClass()
 }
 function documentKeyDown(event) {
@@ -184,7 +183,7 @@ function chatReceived(data) {
 	var msg = data.message;
 	var username = API.getUser().username;
 	var fromSelf = false;
-	if(username === data.from) {
+	if(username === data.un) {
 		fromSelf = true;
 		if(settings.disableOnChat && settings.autoRespond) {
 			settings.autoRespond = false;
@@ -198,10 +197,10 @@ function chatReceived(data) {
 			var timeLimitPerUser = 1000 * 60 * 3;
 			var now = new Date().getTime();
 			var validTime = now - timeLimitPerUser;
-			if(typeof autoResponseSentTimes[data.from] === 'undefined' || autoResponseSentTimes[data.from] < validTime) {
-				var response = '@' + data.from + ' ' + settings.autoRespondMsg;
+			if(typeof autoResponseSentTimes[data.un] === 'undefined' || autoResponseSentTimes[data.un] < validTime) {
+				var response = '@' + data.un + ' ' + settings.autoRespondMsg;
 				API.sendChat(response);
-				autoResponseSentTimes[data.from] = now;
+				autoResponseSentTimes[data.un] = now;
 			}
 		}
 	}
@@ -210,6 +209,7 @@ function chatReceived(data) {
 			applyCustomColors(data)
 		})
 	}
+
 }
 function applyCustomColorsClass() {
 	if(settings.customColors) {
@@ -219,27 +219,29 @@ function applyCustomColorsClass() {
 	}
 }
 function applyCustomColors(message) {
-	var sel = ".cid-" + message.chatID +  ' .from'
+	console.log(message);
+	var sel = '[data-cid="' + message.cid +  '"] .from'
 	var mods = API.getStaff()
 	var isMod = false;
 	var modIndex = -1;
 	for(var i = 0; i < mods.length; i ++) {
-		if(mods[i].id === message.fromID) {
+		if(mods[i].id === message.uid) {
 			isMod = true;
 			modIndex = i;
 			break;
 		}
   }
-  var isSelf = (API.getUser().username === message.from)
+  var isSelf = (API.getUser().username === message.un)
+  console.log($(sel))
   if(isSelf) {
     $(sel).css('color', settings.rankColors.self)
 
-  } else if(API.getUser(message.fromID).relationship === 3 || API.getUser(message.fromID).relationship === 2) {       //If they're your friend.
+  } /*else if(API.getUser(message.uid).relationship === 3 || API.getUser(message.uid).relationship === 2) {       //If they're your friend.
     $(sel).css('color', settings.rankColors.friend)
 
-  } else if(isMod) {
+  } */	else if(isMod) {
 		var mod = API.getStaff()[modIndex]
-		var permission = mod.permission
+		var permission = mod.role
 		var permissionMap = {
 			1: settings.rankColors.resident_dj,
 			2: settings.rankColors.bouncer,
@@ -318,20 +320,26 @@ function checkIfDJing() {
 	$('.button-dj:visible').click();
 }
 function showTheme() {
+	var bgSelector = '.room-background'
+	console.log('show theme');
+	if($(bgSelector).length === 0) {
+		setTimeout(showTheme, 500)
+	}
 	if(originalTheme === null) {
-		originalTheme = $('body').css('background-image');
+		originalTheme = $(bgSelector).css('background-image');
 	}
 	var theme = themes[settings.theme];
 	if(settings.videoSize === 'normal') {
+		console.log(theme);
 		if(theme.name === 'none') {
-			$('body').css('background-image', originalTheme);
+			$(bgSelector).css('background-image', originalTheme);
 			$('#playback .background').show();
 		} else {
-			$('body').css('background-image', 'url(http://i.imgur.com/'+theme.url+'.png)');
+			$(bgSelector).css('background-image', 'url(https://i.imgur.com/'+theme.url+'.png)');
 			$('#playback .background').hide()
 		}
 	} else {
-		$('body').css('background-image','none');
+		$('body').css(bgSelector,'none');
 		$('#playback .background').hide()
 	}
 }
@@ -446,10 +454,12 @@ function insertLargeCSS() {
 	if(src.indexOf('http') === 0) {
 		return;
 	}
+	
 	var cssLink = document.createElement("style")
 	cssLink.textContent = "canvas { width: 100% !important; height: 100% !important; left: 0 !important; top: 0 !important; margin:0 !important; }"
 	cssLink.type = "text/css";
-	frames['yt-frame'].document.body.appendChild(cssLink);
+	frames['yt-frame'].contentWindow.document.body.appendChild(cssLink);
+
 }
 function updateControllers(o) {
 	for (var i in o.__controllers) {
