@@ -144,9 +144,11 @@ function documentKeyDown(event) {
 }
 function replaceText(ele) {
 	var replacements = {
-		'/whatever': '¯\\_(ツ)_/¯'//, :(
-		//'/tableflip': '(╯°□°）╯︵ ┻━┻',
-		//'/tablefix': '┬─┬ノ( º _ ºノ)'
+		'/whatever': '¯\\_(ツ)_/¯',
+		'/tableflip': '(╯°□°）╯︵ ┻━┻',
+		'/tablefix': '┬─┬ノ( º _ ºノ)',
+		'/monocle': 'ಠ_ರೃ',
+		'/disapproval': 'ಠ_ಠ'
 	}
 	$ele = $(ele);
 	var curText = $ele.val();
