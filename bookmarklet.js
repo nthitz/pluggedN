@@ -113,7 +113,7 @@ function once() {
 		'body.customColors #chat .message .from { color: rgba(0,0,0,0); } '
 		+ '</style>')
 	$('#meh').on('click', mehClicked);
-	console.log('window key handler');
+	//console.log('window key handler');
 	window.addEventListener('keyup', documentKeyDown)
 	showHideAudience();
 
@@ -121,11 +121,13 @@ function once() {
        showHideChat();
 
 	doInlineImages();
-	console.log(themes)
+	//console.log(themes)
 	
 	setWootBehavior();
 	setTimeout(updateVideoSize, 1000)
+	showTheme()
 	setTimeout(showTheme,3000);
+	setTimeout(showTheme,8000);
 	applyCustomColorsClass()
 }
 function documentKeyDown(event) {
@@ -219,7 +221,7 @@ function applyCustomColorsClass() {
 	}
 }
 function applyCustomColors(message) {
-	console.log(message);
+	//console.log(message);
 	var sel = '[data-cid="' + message.cid +  '"] .from'
 	var mods = API.getStaff()
 	var isMod = false;
@@ -232,7 +234,7 @@ function applyCustomColors(message) {
 		}
   }
   var isSelf = (API.getUser().username === message.un)
-  console.log($(sel))
+  //console.log($(sel))
   if(isSelf) {
     $(sel).css('color', settings.rankColors.self)
 
@@ -321,7 +323,7 @@ function checkIfDJing() {
 }
 function showTheme() {
 	var bgSelector = '.room-background'
-	console.log('show theme');
+	//console.log('show theme');
 	if($(bgSelector).length === 0) {
 		setTimeout(showTheme, 500)
 	}
@@ -330,7 +332,7 @@ function showTheme() {
 	}
 	var theme = themes[settings.theme];
 	if(settings.videoSize === 'normal') {
-		console.log(theme);
+		//console.log(theme);
 		if(theme.name === 'none') {
 			$(bgSelector).css('background-image', originalTheme);
 			$('#playback .background').show();
@@ -346,7 +348,7 @@ function showTheme() {
 
 function doInlineImages() {
 	if(settings.inlineImages) {
-		console.log('set interval');
+		//console.log('set interval');
 		inlineImagesInterval = setInterval(function() {
 		    $(".closeImage").off("click");
 		    $(".closeImage").on("click", function () {
