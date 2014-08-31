@@ -101,7 +101,7 @@ function once() {
 	}
 	ran = true;
 	user = API.getUser();
-	API.on(API.DJ_ADVANCE,advance);
+	API.on(API.ADVANCE,advance);
 	API.on(API.CHAT, chatReceived);
 	$('#playlist-button').on('click', openPlaylist)
 	$('body').append('<style type="text/css">#volume .slider { display: block !important; }' +
@@ -260,6 +260,9 @@ function applyCustomColors(message) {
 }
 function advance(obj)
 {
+	//console.log('advance')
+	//console.log(arguments);
+	//console.log(obj);
 	clearTimeout(voteTimeout);
 	clearTimeout(djCheckTimeout);
 	if (obj == null) return; // no dj
@@ -287,6 +290,7 @@ function advance(obj)
 	}
 }
 function setWootBehavior() {
+	//console.log('set woot' + settings.autowoot)
 	if(settings.autowoot) {
 		voteTimeout = setTimeout(vote,10000);
 	} else {
@@ -295,6 +299,7 @@ function setWootBehavior() {
 
 }
 function vote() {
+	//console.log('wooting')
 	$('#room #woot').click();
 }
 function mehClicked() {
