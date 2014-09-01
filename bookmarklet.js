@@ -149,7 +149,8 @@ function replaceText(ele) {
 		'/tableflip': '(╯°□°）╯︵ ┻━┻',
 		'/tablefix': '┬─┬ノ( º _ ºノ)',
 		'/monocle': 'ಠ_ರೃ',
-		'/disapproval': 'ಠ_ಠ'
+		'/disapproval': 'ಠ_ಠ',
+		'/donger': 'ヽ༼ຈل͜ຈ༽ﾉ'
 	}
 	$ele = $(ele);
 	var curText = $ele.val();
