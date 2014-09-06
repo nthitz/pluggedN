@@ -1848,7 +1848,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
           _this.useLocalStorage = true;
 
           var saved_gui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
-
+          saved_gui = readCookie(getLocalStorageHash(this, 'gui'))
           if (saved_gui) {
             params.load = JSON.parse(saved_gui);
           }
@@ -1937,6 +1937,8 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
     }
 
     function saveToLocalStorage() {
+      //createCookie(name,value,days)
+      createCookie(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
       localStorage.setItem(getLocalStorageHash(_this, 'gui'), JSON.stringify(_this.getSaveObject()));
     }
 
@@ -2587,7 +2589,7 @@ dat.GUI = dat.gui.GUI = (function (css, saveDialogueContents, styleSheet, contro
 
   function getLocalStorageHash(gui, key) {
     // TODO how does this deal with multiple GUI's?
-    return document.location.href + '.' + key;
+    return document.location.host + '.' + key;
 
   }
 
@@ -3663,10 +3665,34 @@ dat.dom.CenteredDiv = (function (dom, common) {
   function lockScroll(e) {
     console.log(e);
   }
-
   return CenteredDiv;
 
 })(dat.dom.dom,
 dat.utils.common),
 dat.dom.dom,
 dat.utils.common);
+
+function createCookie(name,value,days) {
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime()+(days*24*60*60*1000));
+    var expires = "; expires="+date.toGMTString();
+  }
+  else var expires = "";
+  document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+    var c = ca[i];
+    while (c.charAt(0)==' ') c = c.substring(1,c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+  }
+  return null;
+}
+
+function eraseCookie(name) {
+  createCookie(name,"",-1);
+}
