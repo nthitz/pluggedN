@@ -151,7 +151,8 @@ function replaceText(ele) {
 		'/monocle': 'ಠ_ರೃ',
 		'/disapproval': 'ಠ_ಠ',
 		'/donger': 'ヽ༼ຈل͜ຈ༽ﾉ',
-		'/give': '༼ つ ◕◡◕ ༽つ'
+		'/give': '༼ つ ◕◡◕ ༽つ',
+		'/lenny': '( ͡° ͜ʖ ͡°)'
 	}
 	$ele = $(ele);
 	var curText = $ele.val();
