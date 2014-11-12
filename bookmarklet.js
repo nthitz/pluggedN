@@ -152,7 +152,12 @@ function replaceText(ele) {
 		'/disapproval': 'ಠ_ಠ',
 		'/donger': 'ヽ༼ຈل͜ຈ༽ﾉ',
 		'/give': '༼ つ ◕◡◕ ༽つ',
-		'/lenny': '( ͡° ͜ʖ ͡°)'
+		'/lenny': '( ͡° ͜ʖ ͡°)',
+		'/soviet': 'ノ┬─┬ノ ︵ ( \\o°o)\\',
+		'/danceparty': '♪┏(・o･)┛♪┗ ( ･o･) ┓♪┏(・o･)┛♪',
+		'/fu': '╭∩╮（︶︿︶）╭∩╮',
+		'/koala': 'ʕ •ᴥ•ʔ',
+		'/spooky': 'ヘ(◕。◕ヘ)'
 	}
 	$ele = $(ele);
 	var curText = $ele.val();
