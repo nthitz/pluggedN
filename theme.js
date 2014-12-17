@@ -37,3 +37,8 @@ theme.add('Orbital Lounge','EFXFnql');
 theme.add('Skygazer Theme (lite)','k9zVa92');
 theme.add('Skygazer Theme','N82wzhY');
 theme.add('Castleland (by Dionysu5)','jNRQXKZ');
+theme.add('Chillout Mixer Christmas','ILrUcVK');
+theme.add('Chillout Mixer Christmas Lite','nb4ibg4');
+theme.add('Christmas Classic','2Q89Rn2');
+theme.add('plug.dj Christmas Classic','P4GVhF4');
+theme.add('plug.dj Christmas Ice','M0CeHah');
