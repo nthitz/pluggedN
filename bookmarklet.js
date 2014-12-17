@@ -376,7 +376,7 @@ function doInlineImages() {
 				var objDiv = document.getElementById("chat-messages");
 				objDiv.scrollTop = objDiv.scrollHeight;
 		    }
-		    return $("#chat-messages span.text a").each(function (e, t) {
+		    return $("#chat-messages .text a").each(function (e, t) {
 		    	if($(t).hasClass('ignore')) {
 		    		return;
 		    	}
