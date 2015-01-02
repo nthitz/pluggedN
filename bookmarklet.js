@@ -21,7 +21,7 @@ var settings = {
 	audienceOpacity: 1.0,
 	djOpacity: 1.0,
 	videoOpacity: 0.7,
-       chatOpacity: 1.0,
+	chatOpacity: 1.0,
 	autowoot: false,
 	inlineImages: true,
 	theme:0,
@@ -82,6 +82,7 @@ var showHide = advanced.addFolder('hide stuff')
 showHide.add(settings, 'audienceOpacity',0,1).onChange(showHideAudience);
 showHide.add(settings, 'djOpacity',0,1).onChange(showHideDJ)
 showHide.add(settings, 'chatOpacity',0,1).onChange(showHideChat);
+
 advanced.add(settings,'spaceMute')
 advanced.add(settings,'autoWootMinTime',0,120)
 advanced.add(settings,'autoWootMaxTime',0,120)
@@ -118,7 +119,7 @@ function once() {
 	showHideAudience();
 
 	showHideVideo();
-       showHideChat();
+	showHideChat();
 
 	doInlineImages();
 	//console.log(themes)
@@ -190,7 +191,6 @@ function showHideDJ() {
 function showHideChat() {
        $('#chat').css('opacity', settings.chatOpacity);
 }
-
 function chatReceived(data) {
 	var msg = data.message;
 	var username = API.getUser().username;
