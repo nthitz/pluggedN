@@ -157,7 +157,9 @@ function replaceText(ele) {
 		'/danceparty': '♪┏(・o･)┛♪┗ ( ･o･) ┓♪┏(・o･)┛♪',
 		'/fu': '╭∩╮（︶︿︶）╭∩╮',
 		'/koala': 'ʕ •ᴥ•ʔ',
-		'/spooky': 'ヘ(◕。◕ヘ)'
+		'/spooky': 'ヘ(◕。◕ヘ)',
+		'/fu2': '( ° ͜ʖ͡°)╭∩╮'
+
 	}
 	$ele = $(ele);
 	var curText = $ele.val();
