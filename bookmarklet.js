@@ -129,7 +129,13 @@ function once() {
 	showTheme()
 	setTimeout(showTheme,3000);
 	setTimeout(showTheme,8000);
+	setInterval(fixShit, 10 * 1000)
 	applyCustomColorsClass()
+}
+function fixShit() {
+	showTheme();
+	showHideVideo();
+	showHideAudience();
 }
 function documentKeyDown(event) {
 	var target = event.target.tagName.toLowerCase()
