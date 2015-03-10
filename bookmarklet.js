@@ -111,7 +111,9 @@ function once() {
 		'#room.largePlayer #playback { width: 100% !important; height: 101% !important; left:0 !important; pointer-events:none !important; }' +
 		'#room.largePlayer #playback-container { width: 100% !important; height: 100% !important; pointer-events:none !important; }' +
 		'#room.largePlayer #yt-frame { pointer-events: none !important; }' +
-		'body.customColors #chat .message .from { color: rgba(0,0,0,0); } '
+		'body.customColors #chat .message .from { color: rgba(0,0,0,0); } ' +
+		'#footer-user .buttons .button.notify .count { display: none; } ' +
+		'#footer-user .buttons:hover .button.notify .count { display: block; } '
 		+ '</style>')
 	$('#meh').on('click', mehClicked);
 	//console.log('window key handler');
