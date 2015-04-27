@@ -375,12 +375,16 @@ function doInlineImages() {
     inlineImagesInterval = setInterval(function() {
       $(".closeImage").off("click");
       $(".closeImage").on("click", function () {
-          var parent = $(this).parent();
-          var embed = parent.find(".plugEmbed");
-          var src = $(this).data("src");
-          $(this).remove();
-          embed.remove();
-          parent.append("<a href=" + src + ' class="ignore" target="_blank">' + src + "</a>")
+        var $this = $(this)
+        var parent = $this.parent()
+        var embed = $this.next()
+        var src = $this.data("src");
+
+        $("<a href=" + src + ' class="ignore" target="_blank">' + src + "</a>")
+          .insertBefore(embed)
+
+        $this.remove();
+        embed.remove();
       });
       function imageLoaded() {
         var objDiv = document.getElementById("chat-messages");
