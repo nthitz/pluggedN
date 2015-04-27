@@ -395,15 +395,15 @@ function doInlineImages() {
             var img = new Image()
             img.onload = imageLoaded;
             img.src = t.href
-                return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "'' /><img class='plugEmbed' style='width: 100%' src='" + t.href + "' />"
+                return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer; z-index:10;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "'' /><img class='plugEmbed' style='width: 100%' src='" + t.href + "' />"
             } else if (mediacrushMatch = t.href.match(/\/\/mediacru.sh\/([a-zA-Z0-9]+)/) ) {
               var embed = "https://mediacru.sh/" + mediacrushMatch[1] + "/frame"
-              return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "' /><iframe class='plugEmbed' src='" + embed + "' width='100%' allowFullScreen frameborder='0'></iframe>"
+              return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer; z-index:10;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "' /><iframe class='plugEmbed' src='" + embed + "' width='100%' allowFullScreen frameborder='0'></iframe>"
 
             } else if (t.href.match(/(\.webm|\.gifv)$/i)) {
               var link = t.href;
               link = link.replace(/\.gifv$/i, '.webm');
-              return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + link + "'' /><video autoplay class='plugEmbed' style='width: 100%' loop muted controls><source src='" + link + "' type='video/webm'></video>"
+              return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer; z-index:10;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + link + "'' /><video autoplay class='plugEmbed' style='width: 100%' loop muted controls><source src='" + link + "' type='video/webm'></video>"
             }
         })
     },1e3)
