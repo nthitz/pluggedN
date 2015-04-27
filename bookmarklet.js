@@ -125,7 +125,7 @@ function once() {
 
 	doInlineImages();
 	//console.log(themes)
-	
+
 	setWootBehavior();
 	setTimeout(updateVideoSize, 1000)
 	showTheme()
@@ -399,9 +399,9 @@ function doInlineImages() {
 		        } else if (mediacrushMatch = t.href.match(/\/\/mediacru.sh\/([a-zA-Z0-9]+)/) ) {
 		        	var embed = "https://mediacru.sh/" + mediacrushMatch[1] + "/frame"
 		        	return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "' /><iframe class='plugEmbed' src='" + embed + "' width='100%' allowFullScreen frameborder='0'></iframe>"
-		        	
+
 		        } else if (t.href.match(/(\.webm)$/i)) {
-		            return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "'' /><video autoplay class='plugEmbed' style='width: 100%'><source src='" + t.href + "' type='video/webm'></video>"
+		            return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "'' /><video autoplay class='plugEmbed' style='width: 100%' loop muted controls><source src='" + t.href + "' type='video/webm'></video>"
 		        }
 		    })
 		},1e3)
@@ -481,7 +481,7 @@ function insertLargeCSS() {
 	if(src.indexOf('http') === 0) {
 		return;
 	}
-	
+
 	var cssLink = document.createElement("style")
 	cssLink.textContent = "canvas { width: 100% !important; height: 100% !important; left: 0 !important; top: 0 !important; margin:0 !important; }"
 	cssLink.type = "text/css";
