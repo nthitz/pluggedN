@@ -111,7 +111,9 @@ function once() {
 		'#room.largePlayer #playback { width: 100% !important; height: 101% !important; left:0 !important; pointer-events:none !important; }' +
 		'#room.largePlayer #playback-container { width: 100% !important; height: 100% !important; pointer-events:none !important; }' +
 		'#room.largePlayer #yt-frame { pointer-events: none !important; }' +
-		'body.customColors #chat .message .from { color: rgba(0,0,0,0); } '
+		'body.customColors #chat .message .from { color: rgba(0,0,0,0); } ' +
+		'#footer-user .buttons .button.notify .count { display: none; } ' +
+		'#footer-user .buttons:hover .button.notify .count { display: block; } '
 		+ '</style>')
 	$('#meh').on('click', mehClicked);
 	//console.log('window key handler');
@@ -398,6 +400,8 @@ function doInlineImages() {
 		        	var embed = "https://mediacru.sh/" + mediacrushMatch[1] + "/frame"
 		        	return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "' /><iframe class='plugEmbed' src='" + embed + "' width='100%' allowFullScreen frameborder='0'></iframe>"
 		        	
+		        } else if (t.href.match(/(\.webm)$/i)) {
+		            return t.outerHTML = "<img class='closeImage' style='position: absolute; right: 0px; cursor: pointer;' src='http://i.imgur.com/JvlpEy9.png' data-src='" + t.href + "'' /><video autoplay class='plugEmbed' style='width: 100%'><source src='" + t.href + "' type='video/webm'></video>"
 		        }
 		    })
 		},1e3)
