@@ -113,7 +113,8 @@ function once() {
     '#room.largePlayer #yt-frame { pointer-events: none !important; }' +
     'body.customColors #chat .message .from { color: rgba(0,0,0,0); } ' +
     '#footer-user .buttons .button.notify .count { display: none; } ' +
-    '#footer-user .buttons:hover .button.notify .count { display: block; } '
+    '#footer-user .buttons:hover .button.notify .count { display: block; } ' +
+    '.promo { display: none; } '
     + '</style>')
   $('#meh').on('click', mehClicked);
   //console.log('window key handler');
