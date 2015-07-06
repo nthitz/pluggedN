@@ -155,6 +155,7 @@ function documentKeyDown(event) {
 }
 function replaceText(ele) {
   var replacements = {
+    '/whatever': '¯\\_(ツ)_/¯',
     '/idunnolol': '¯\\_(ツ)_/¯',
     '/tableflip': '(╯°□°）╯︵ ┻━┻',
     '/tablefix': '┬─┬ノ( º _ ºノ)',
