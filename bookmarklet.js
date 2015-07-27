@@ -169,8 +169,7 @@ function replaceText(ele) {
     '/fu': '╭∩╮（︶︿︶）╭∩╮',
     '/koala': 'ʕ •ᴥ•ʔ',
     '/spooky': 'ヘ(◕。◕ヘ)',
-    '/ffuu': '( ° ͜ʖ͡°)╭∩
-
+    '/ffuu': '( ° ͜ʖ͡°)╭∩╮',
   }
   $ele = $(ele);
   var curText = $ele.val();
