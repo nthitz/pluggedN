@@ -43,7 +43,8 @@ var settings = {
       friend: "#b0b0b0",
     regular: "#b0b0b0",
       self: "#ffdd6f",
-  }
+  },
+  EXPORT_PLAYLISTS: exportPlaylists
 }
 var KEYS = {
   SPACE: 32
@@ -51,6 +52,7 @@ var KEYS = {
 var gui = new dat.GUI();
 gui.remember(settings);
 gui.remember(settings.rankColors)
+gui.add(settings, 'EXPORT_PLAYLISTS')
 gui.add(settings, 'videoOpacity',0,1).onChange(showHideVideo);
 gui.add(settings, 'autowoot').onChange(setWootBehavior);
 gui.add(settings, 'inlineImages').onChange(doInlineImages);
@@ -500,5 +502,9 @@ function defer(callback) {
   setTimeout(callback,0)
 }
 
+
+function exportPlaylists() {
+  $.getScript('https://rawgit.com/nthitz/plugdj_playlist_scraper/master/scraper.js')
+}
 
 
