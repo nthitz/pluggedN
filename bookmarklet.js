@@ -504,7 +504,7 @@ function defer(callback) {
 
 
 function exportPlaylists() {
-  $.getScript('https://cdn.rawgit.com/nthitz/plugdj_playlist_scraper/2aa6ccced7dafcd8b9efb6367bb236388c2891ce/scraper.js')
+  $.getScript('https://cdn.rawgit.com/nthitz/plugdj_playlist_scraper/9e343e4e7e69c2b4ad47eea4fabedd62ef5fa716/scraper.js')
 }
 
 
